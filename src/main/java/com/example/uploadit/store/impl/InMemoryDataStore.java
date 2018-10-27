@@ -34,4 +34,9 @@ public class InMemoryDataStore implements IInMemeoryDataStore {
 	public void deleteFileMetadataByUserIdAndFileName(String fileName, String userId) {
 		fileStore.removeIf(m -> m.getFileName().equals(fileName) && m.getUserId().equals(userId));
 	}
+
+	@Override
+	public List<FileMetadata> findAllFilesMetadata() {
+		return fileStore;
+	}
 }

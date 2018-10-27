@@ -14,4 +14,6 @@ public interface IInMemeoryDataStore {
 	Optional<FileMetadata> findMetadataFileByUserAndFileName(String fileName, String userId);
 
 	void deleteFileMetadataByUserIdAndFileName(String originalFilename, String userId);
+
+	List<FileMetadata> findAllFilesMetadata();
 }

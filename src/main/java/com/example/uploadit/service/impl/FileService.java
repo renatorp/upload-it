@@ -1,6 +1,9 @@
 package com.example.uploadit.service.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.net.URI;
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.uploadit.component.IFileHelper;
 import com.example.uploadit.component.IFileMetadataHandler;
@@ -19,6 +23,7 @@ import com.example.uploadit.exception.RestApplicationException;
 import com.example.uploadit.service.IFileService;
 import com.example.uploadit.store.IInMemeoryDataStore;
 import com.example.uploadit.vo.FileRequestBody;
+import com.example.uploadit.vo.FileResponseVO;
 
 @Service
 public class FileService implements IFileService {
@@ -174,6 +179,37 @@ public class FileService implements IFileService {
 		FileMetadata fileMetadata = findFileMetadata(fileName, userId);
 		fileMetadataHandler.markAsProcessFailed(fileMetadata);
 		fileHelper.deleteDir(String.format(CHUNKS_DIR_PATH_FORMAT, chunksDir, userId, fileName));
+	}
+
+	@Override
+	public List<FileResponseVO> listAllFiles() {
+		List<FileMetadata> allMetadata = dataStore.findAllFilesMetadata();
+		
+		return allMetadata.stream()
+			.map(this::convertFileMetadataToResponseVO)
+			.collect(Collectors.toList());
+	}
+
+	private FileResponseVO convertFileMetadataToResponseVO(FileMetadata m) {
+		
+		FileResponseVO vo = new FileResponseVO();
+
+		vo.setId(m.getId());
+		vo.setUserId(m.getUserId());
+		vo.setFileName(m.getFileName());
+		vo.setStatus(m.getStatus().getKey());
+
+		if (m.getDateTimeEndProcess() != null) {
+			vo.setProcessDuration(Duration.between(m.getDateTimeStartProcess(), m.getDateTimeEndProcess()).toMillis());
+
+			URI downloadLink = ServletUriComponentsBuilder.fromCurrentContextPath().path("files/{fileId}").buildAndExpand(m.getId()).toUri();
+			vo.setDownload(downloadLink.toString());
+		}
+		
+		vo.setQuantityOfBlocks(m.getTotalChunks());
+		
+		
+		return vo;
 	}
 
 }
