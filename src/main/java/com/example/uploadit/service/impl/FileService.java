@@ -3,10 +3,9 @@ package com.example.uploadit.service.impl;
 import java.io.IOException;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,8 +20,6 @@ import com.example.uploadit.vo.FileRequestBody;
 @Service
 public class FileService implements IFileService {
 
-	private static final Logger logger = LoggerFactory.getLogger(FileService.class);
-	
 	private static final String CHUNK_PATH_FORMAT = "%s/%s/%s.tmp";
 	private static final String FILE_PATH_FORMAT = "%s/%s/%s";
 
@@ -79,7 +76,7 @@ public class FileService implements IFileService {
 			String fileName = String.format(FILE_PATH_FORMAT, filesDir, fileId, multipartFile.getOriginalFilename());
 			fileHelper.storeMultipartFile(multipartFile, fileName);
 		} catch (IOException e) {
-			throw new RestApplicationException("An Unexpected Error Occurred While Saving the File", e);
+			throw new RestApplicationException("An Unexpected Error Occurred While Saving the File", HttpStatus.INTERNAL_SERVER_ERROR, e);
 		}
 
 	}
@@ -90,7 +87,7 @@ public class FileService implements IFileService {
 			String fileName = String.format(CHUNK_PATH_FORMAT, chunksDir, fileId, chunkIndex);
 			fileHelper.storeMultipartFile(multipartFile, fileName);
 		} catch (IOException e) {
-			throw new RestApplicationException("An Unexpected Error Occurred While Saving the File", e);
+			throw new RestApplicationException("An Unexpected Error Occurred While Saving the File", HttpStatus.INTERNAL_SERVER_ERROR, e);
 		}
 
 	}

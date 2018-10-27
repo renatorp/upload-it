@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.uploadit.component.IErrorHandler;
 import com.example.uploadit.service.IFileService;
 import com.example.uploadit.vo.FileRequestBody;
 
@@ -20,14 +21,19 @@ public class FileResource {
 	@Autowired
 	private IFileService fileService;
 
+	@Autowired
+	private IErrorHandler errorHandler;
+
 	@CrossOrigin /// REMOVER
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> handleFileUpload(@RequestParam("user") String userId, FileRequestBody requestBody) {
+	public ResponseEntity<Object> handleFileUpload(@RequestParam("user") String userId, FileRequestBody requestBody) {
 
-		fileService.uploadFile(requestBody, userId);
-		
-		return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
+		try {
+			fileService.uploadFile(requestBody, userId);
+			return ResponseEntity.status(HttpStatus.CREATED).build();
+		} catch (Exception e) {
+			return errorHandler.handleError(e);
+		}
+	}
 
-	
 }
