@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   uploadFileUrl: 'http://localhost:8080/files?user={0}',
   uploadFileSuccessUrl: 'http://localhost:8080/files/{0}/success?user={1}',
-  uploadFileFailureUrl: 'http://localhost:8080/files/{0}/failure?user={1}'
+  uploadFileFailureUrl: 'http://localhost:8080/files/{0}/failure?user={1}',
+  allFilesUrl: 'http://localhost:8080/files'
 };
 
 /*

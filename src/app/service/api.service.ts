@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
+import { FileUpload } from '../model/file-upload';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -12,7 +13,6 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ApiService {
-
   constructor(private http: HttpClient) { }
 
   public reportUploadFailure(fileName: string, userId: string): Observable<any> {
@@ -39,6 +39,13 @@ export class ApiService {
     );
   }
 
+  public findAllUploadedFiles(): Observable<FileUpload[]> {
+    return this.http.get(environment.allFilesUrl, httpOptions).pipe(
+      tap(_ => this.log(`find all uploaded files`)),
+      catchError(this.handleError<any>('findAllUploadedFiles')),
+      map(r => <FileUpload[]> r)
+    );
+  }
 
 /**
  * Handle Http operation that failed.

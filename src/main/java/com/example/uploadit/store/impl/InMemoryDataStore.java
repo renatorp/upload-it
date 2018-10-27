@@ -16,7 +16,7 @@ public class InMemoryDataStore implements IInMemeoryDataStore {
 
 	@Override
 	public Optional<FileMetadata> findMetadataFileById(String uuid) {
-		return fileStore.stream().filter(m -> uuid.equals(m.getId())).findFirst();
+		return fileStore.stream().filter(m -> m.getId().equals(uuid)).findFirst();
 	}
 
 	@Override

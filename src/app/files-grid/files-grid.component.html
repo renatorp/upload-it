@@ -9,13 +9,13 @@
       <th>Qtd de Blocos</th>
       <th>Download</th>
     </tr>
-    <tr>
-      <td>1</td>
-      <td>O Símbolo Perdido.pdf</td>
-      <td>Concluído</td>
-      <td>1 min</td>
-      <td>2</td>
-      <td><button type="button" class="btn btn-link">Download</button></td>
+    <tr *ngFor="let file of files | async" >
+      <td>{{file.userId}}</td>
+      <td>{{file.fileName}}</td>
+      <td>{{file.status}}</td>
+      <td>{{file.processDuration}}</td>
+      <td>{{file.quantityOfBlocks}}</td>
+      <td><button type="button" class="btn btn-link" (click)="download(file.id)">Download</button></td>
     </tr>
   </table>
 </div>

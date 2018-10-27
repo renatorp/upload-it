@@ -13,21 +13,22 @@ import com.example.uploadit.enums.UploadStatusEnum;
 import com.example.uploadit.vo.FileRequestBody;
 
 @Component
-public class FileMetadataHandler implements IFileMetadataHandler{
+public class FileMetadataHandler implements IFileMetadataHandler {
 
 	@Override
 	public FileMetadata createMetadata(FileRequestBody requestBody, String userId) {
 		FileMetadata fileMetadata = new FileMetadata();
-		
+
 		String id = Objects.nonNull(requestBody.getDzuuid()) ? requestBody.getDzuuid() : UUID.randomUUID().toString();
-		
+		Integer numChunks = Objects.nonNull(requestBody.getDztotalchunkcount()) ? requestBody.getDztotalchunkcount()
+				: 0;
 		fileMetadata.setId(id);
 		fileMetadata.setFileName(requestBody.getFile().getOriginalFilename());
 		fileMetadata.setUserId(userId);
 		fileMetadata.setStatus(UploadStatusEnum.NOT_STARTED);
-		fileMetadata.setTotalChunks(requestBody.getDztotalchunkcount());
+		fileMetadata.setTotalChunks(numChunks);
 		fileMetadata.setProcessedChunks(new HashSet<Integer>());
-		
+
 		return fileMetadata;
 	}
 
@@ -40,13 +41,13 @@ public class FileMetadataHandler implements IFileMetadataHandler{
 	public boolean isInProgress(FileMetadata metadata) {
 		return UploadStatusEnum.IN_PROGRESS.equals(metadata.getStatus());
 	}
-	
+
 	@Override
 	public void markAsProcessFailed(FileMetadata metadata) {
 		metadata.setStatus(UploadStatusEnum.FAILED);
 		metadata.setDateTimeEndProcess(LocalDateTime.now());
 	}
-	
+
 	@Override
 	public void markAsProcessStarted(FileMetadata metadata) {
 		metadata.setStatus(UploadStatusEnum.IN_PROGRESS);
