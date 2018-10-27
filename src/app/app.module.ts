@@ -11,7 +11,6 @@ import { FilesGridComponent } from './files-grid/files-grid.component';
 import { environment } from '../environments/environment';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
-   url: environment.uploadFileUrl,
    method: 'post',
    maxFilesize: null,
    chunking: true,

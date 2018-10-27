@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-file-upload',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FileUploadComponent implements OnInit {
 
-  constructor() { }
+  userId: any;
+  public config: { url: string; };
+
+  constructor() {
+    // Remover userid fixo
+    this.userId = 1;
+  }
 
   ngOnInit() {
+    this.config = {
+      url: environment.uploadFileUrl.replace('{0}', this.userId),
+    };
   }
 
   public onUploadError(e) {
