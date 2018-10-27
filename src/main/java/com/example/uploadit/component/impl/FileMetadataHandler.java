@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 
 import com.example.uploadit.component.IFileMetadataHandler;
 import com.example.uploadit.entity.FileMetadata;

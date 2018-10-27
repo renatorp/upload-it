@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ServerErrorException;
 
 import com.example.uploadit.component.IFileHelper;
 import com.example.uploadit.component.IFileMetadataHandler;
 import com.example.uploadit.entity.FileMetadata;
+import com.example.uploadit.exception.RestApplicationException;
 import com.example.uploadit.service.IFileService;
 import com.example.uploadit.store.IInMemeoryDataStore;
 import com.example.uploadit.vo.FileRequestBody;
@@ -79,8 +79,7 @@ public class FileService implements IFileService {
 			String fileName = String.format(FILE_PATH_FORMAT, filesDir, fileId, multipartFile.getOriginalFilename());
 			fileHelper.storeMultipartFile(multipartFile, fileName);
 		} catch (IOException e) {
-			logger.error("An Unexpected Error Occurred.", e);
-			throw new ServerErrorException("An Unexpected Error Occurred While Saving the File", e);
+			throw new RestApplicationException("An Unexpected Error Occurred While Saving the File", e);
 		}
 
 	}
@@ -91,8 +90,7 @@ public class FileService implements IFileService {
 			String fileName = String.format(CHUNK_PATH_FORMAT, chunksDir, fileId, chunkIndex);
 			fileHelper.storeMultipartFile(multipartFile, fileName);
 		} catch (IOException e) {
-			logger.error("An Unexpected Error Occurred.", e);
-			throw new ServerErrorException("An Unexpected Error Occurred While Saving the File Chunk", e);
+			throw new RestApplicationException("An Unexpected Error Occurred While Saving the File", e);
 		}
 
 	}
