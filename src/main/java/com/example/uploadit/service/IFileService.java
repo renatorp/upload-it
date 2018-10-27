@@ -4,6 +4,6 @@ import com.example.uploadit.vo.FileRequestBody;
 
 public interface IFileService {
 
-	void uploadFileChunk(FileRequestBody requestBody, String userId);
+	void uploadFile(FileRequestBody requestBody, String userId);
 
 }

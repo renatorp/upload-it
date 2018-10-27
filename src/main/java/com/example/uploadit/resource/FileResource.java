@@ -1,6 +1,7 @@
 package com.example.uploadit.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,13 +20,14 @@ public class FileResource {
 	@Autowired
 	private IFileService fileService;
 
-	@CrossOrigin
+	@CrossOrigin /// REMOVER
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> handleFileChunkUpload(@RequestParam("user") String userId, FileRequestBody requestBody) {
+    public ResponseEntity<String> handleFileUpload(@RequestParam("user") String userId, FileRequestBody requestBody) {
 
-		fileService.uploadFileChunk(requestBody, userId);
+		fileService.uploadFile(requestBody, userId);
 		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
 	
 }
