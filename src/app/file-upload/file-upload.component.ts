@@ -24,11 +24,15 @@ export class FileUploadComponent implements OnInit {
   }
 
   public onUploadError(e) {
-    console.log('Error');
+    this.apiService.reportUploadFailure(e[0].name, this.userId).subscribe(
+      response => {},
+      error => {}
+    );
+    console.log('Error: ' + e);
   }
 
   public onUploadSuccess(e) {
-    this.apiService.reportUploadSuccess(e.fileName, e.userid).subscribe(
+    this.apiService.reportUploadSuccess(e[0].name, this.userId).subscribe(
       response => {},
       error => {}
     );

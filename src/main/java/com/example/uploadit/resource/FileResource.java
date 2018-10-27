@@ -1,13 +1,12 @@
 package com.example.uploadit.resource;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,14 +38,16 @@ public class FileResource {
 		}
 	}
 	
-	@PatchMapping("{fileName}/success")
-	public ResponseEntity<Object> handleUploadSuccess(@PathParam("fileName") String fileName, @RequestParam("user") String userId) {
+	@CrossOrigin /// REMOVER
+	@PatchMapping("/{fileName}/success")
+	public ResponseEntity<Object> handleUploadSuccess(@PathVariable("fileName") String fileName, @RequestParam("user") String userId) {
 		// TODO Auto-generated method stub
 		return ResponseEntity.ok().build();
 	}
 
+	@CrossOrigin /// REMOVER
 	@PatchMapping("{fileName}/failure")
-	public ResponseEntity<Object> handleUploadFailure(@PathParam("fileName") String fileName, @RequestParam("user") String userId) {
+	public ResponseEntity<Object> handleUploadFailure(@PathVariable("fileName") String fileName, @RequestParam("user") String userId) {
 		// TODO Auto-generated method stub
 		return ResponseEntity.ok().build();
 	}
