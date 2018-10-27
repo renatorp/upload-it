@@ -37,6 +37,17 @@ public class FileMetadataHandler implements IFileMetadataHandler{
 	}
 
 	@Override
+	public boolean isInProgress(FileMetadata metadata) {
+		return UploadStatusEnum.IN_PROGRESS.equals(metadata.getStatus());
+	}
+	
+	@Override
+	public void markAsProcessFailed(FileMetadata metadata) {
+		metadata.setStatus(UploadStatusEnum.FAILED);
+		metadata.setDateTimeEndProcess(LocalDateTime.now());
+	}
+	
+	@Override
 	public void markAsProcessStarted(FileMetadata metadata) {
 		metadata.setStatus(UploadStatusEnum.IN_PROGRESS);
 		metadata.setDateTimeStartProcess(LocalDateTime.now());

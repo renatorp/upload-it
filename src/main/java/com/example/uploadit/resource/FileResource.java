@@ -41,14 +41,21 @@ public class FileResource {
 	@CrossOrigin /// REMOVER
 	@PatchMapping("/{fileName}/success")
 	public ResponseEntity<Object> handleUploadSuccess(@PathVariable("fileName") String fileName, @RequestParam("user") String userId) {
-		// TODO Auto-generated method stub
-		return ResponseEntity.ok().build();
+		try {
+			if (fileService.isUploadInProgress(fileName, userId)) {
+				ResponseEntity.noContent();
+			}
+			fileService.concludeUpload(fileName, userId);
+			return ResponseEntity.ok().build();
+			
+		} catch (Exception e) {
+			return errorHandler.handleError(e);
+		}
 	}
 
 	@CrossOrigin /// REMOVER
 	@PatchMapping("{fileName}/failure")
 	public ResponseEntity<Object> handleUploadFailure(@PathVariable("fileName") String fileName, @RequestParam("user") String userId) {
-		// TODO Auto-generated method stub
 		return ResponseEntity.ok().build();
 	}
 }

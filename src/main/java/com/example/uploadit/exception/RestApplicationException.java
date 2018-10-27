@@ -13,6 +13,11 @@ public class RestApplicationException extends RuntimeException {
 		this.httpStatus = httpStatus;
 	}
 
+	public RestApplicationException(String message, HttpStatus httpStatus) {
+		super(message);
+		this.httpStatus = httpStatus;
+	}
+
 	public HttpStatus getHttpStatus() {
 		return httpStatus;
 	}

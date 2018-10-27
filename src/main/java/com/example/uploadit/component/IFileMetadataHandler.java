@@ -17,4 +17,8 @@ public interface IFileMetadataHandler {
 
 	void markAsProcessConcluded(FileMetadata metadata);
 
+	boolean isInProgress(FileMetadata metadata);
+
+	void markAsProcessFailed(FileMetadata fileMetadata);
+
 }
