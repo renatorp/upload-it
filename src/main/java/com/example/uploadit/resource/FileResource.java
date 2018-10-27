@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.uploadit.vo.FileRequestBody;
 
 @RestController
-@RequestMapping("file")
+@RequestMapping("files")
 public class FileResource {
 
 	

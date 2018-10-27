@@ -8,9 +8,10 @@ import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { AppComponent } from './app.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { FilesGridComponent } from './files-grid/files-grid.component';
+import { environment } from '../environments/environment';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
-   url: 'http://localhost:8080/file',
+   url: environment.uploadFileUrl,
    method: 'post',
    maxFilesize: null,
    chunking: true,
