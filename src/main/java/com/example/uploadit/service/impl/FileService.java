@@ -60,20 +60,20 @@ public class FileService implements IFileService {
 		
 		if (fileMetadataHandler.isChunked(metadata)) {
 			
-			storeChunk(requestBody.getFile(), requestBody.getDzchunkindex(), metadata.getId());
+			storeChunk(requestBody.getFile(), requestBody.getDzchunkindex(), metadata.getUserId());
 			
 			fileMetadataHandler.markChunkAsProcessed(metadata, requestBody.getDzchunkindex());
 			
 		} else {
-			storeFile(requestBody.getFile(), metadata.getId());
+			storeFile(requestBody.getFile(), metadata.getUserId());
 			fileMetadataHandler.markAsProcessConcluded(metadata);
 		}
 		
 	}
 
-	private void storeFile(MultipartFile multipartFile, String fileId) {
+	private void storeFile(MultipartFile multipartFile, String userId) {
 		try {
-			String fileName = String.format(FILE_PATH_FORMAT, filesDir, fileId, multipartFile.getOriginalFilename());
+			String fileName = String.format(FILE_PATH_FORMAT, filesDir, userId, multipartFile.getOriginalFilename());
 			fileHelper.storeMultipartFile(multipartFile, fileName);
 		} catch (IOException e) {
 			throw new RestApplicationException("An Unexpected Error Occurred While Saving the File", HttpStatus.INTERNAL_SERVER_ERROR, e);
@@ -81,10 +81,10 @@ public class FileService implements IFileService {
 
 	}
 
-	private void storeChunk(MultipartFile multipartFile, Integer chunkIndex, String fileId) {
+	private void storeChunk(MultipartFile multipartFile, Integer chunkIndex, String userId) {
 
 		try {
-			String fileName = String.format(CHUNK_PATH_FORMAT, chunksDir, fileId, chunkIndex);
+			String fileName = String.format(CHUNK_PATH_FORMAT, chunksDir, userId, chunkIndex);
 			fileHelper.storeMultipartFile(multipartFile, fileName);
 		} catch (IOException e) {
 			throw new RestApplicationException("An Unexpected Error Occurred While Saving the File", HttpStatus.INTERNAL_SERVER_ERROR, e);

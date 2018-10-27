@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { ApiService } from '../service/api.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -11,7 +12,7 @@ export class FileUploadComponent implements OnInit {
   userId: any;
   public config: { url: string; };
 
-  constructor() {
+  constructor(private apiService: ApiService) {
     // Remover userid fixo
     this.userId = 1;
   }
@@ -27,7 +28,11 @@ export class FileUploadComponent implements OnInit {
   }
 
   public onUploadSuccess(e) {
-    console.log('Succerss');
+    this.apiService.reportUploadSuccess(e.fileName, e.userid).subscribe(
+      response => {},
+      error => {}
+    );
+    console.log('Succerss: ' + e);
   }
 
 }

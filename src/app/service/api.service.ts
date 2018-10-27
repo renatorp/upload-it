@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,21 +15,26 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  public reportUploadFailure(fileId: string): Observable<any> {
-    const url = environment.uploadFileFailureUrl.replace('{0}', fileId);
+  public reportUploadFailure(fileName: string, userId: string): Observable<any> {
+
+    const url = environment.uploadFileFailureUrl
+    .replace('{0}', fileName)
+    .replace('{1}', userId);
 
     return this.http.patch(url, httpOptions).pipe(
-      tap(_ => this.log(`report failure flie id=${fileId}`)),
+      tap(_ => this.log(`report failure flie id=${fileName}`)),
       catchError(this.handleError<any>('reportUploadFailure'))
     );
   }
 
 
-  public reportUploadSuccess(fileId: string): Observable<any> {
-    const url = environment.uploadFileSuccessUrl.replace('{0}', fileId);
+  public reportUploadSuccess(fileName: string, userId: string): Observable<any> {
+    const url = environment.uploadFileSuccessUrl
+      .replace('{0}', fileName)
+      .replace('{1}', userId);
 
     return this.http.patch(url, httpOptions).pipe(
-      tap(_ => this.log(`report success flie id=${fileId}`)),
+      tap(_ => this.log(`report success flie id=${fileName}`)),
       catchError(this.handleError<any>('reportUploadSuccess'))
     );
   }
