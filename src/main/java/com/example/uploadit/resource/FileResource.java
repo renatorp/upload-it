@@ -42,7 +42,7 @@ public class FileResource {
 	@PatchMapping("/{fileName}/success")
 	public ResponseEntity<Object> handleUploadSuccess(@PathVariable("fileName") String fileName, @RequestParam("user") String userId) {
 		try {
-			if (fileService.isUploadInProgress(fileName, userId)) {
+			if (!fileService.isUploadInProgress(fileName, userId)) {
 				ResponseEntity.noContent();
 			}
 			fileService.concludeUpload(fileName, userId);
@@ -56,6 +56,12 @@ public class FileResource {
 	@CrossOrigin /// REMOVER
 	@PatchMapping("{fileName}/failure")
 	public ResponseEntity<Object> handleUploadFailure(@PathVariable("fileName") String fileName, @RequestParam("user") String userId) {
-		return ResponseEntity.ok().build();
+		try {
+			fileService.concludeUploadWithFailure(fileName, userId);
+			return ResponseEntity.ok().build();
+			
+		} catch (Exception e) {
+			return errorHandler.handleError(e);
+		}
 	}
 }

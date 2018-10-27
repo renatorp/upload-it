@@ -11,4 +11,6 @@ public interface IFileHelper {
 
 	void mergeFiles(List<String> sourceFiles, String targetFile) throws IOException;
 
+	void deleteDir(String sourceFolder);
+
 }

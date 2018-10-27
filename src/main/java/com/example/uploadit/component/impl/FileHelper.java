@@ -32,4 +32,14 @@ public class FileHelper implements IFileHelper {
 		}
 	}
 
+	@Override
+	public void deleteDir(String dirPath) {
+		File dir = new File(dirPath);
+		String[]entries = dir.list();
+		for(String s: entries){
+		    new File(dir.getPath(),s).delete();
+		}
+		dir.delete();
+	}
+
 }

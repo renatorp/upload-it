@@ -10,4 +10,6 @@ public interface IFileService {
 
 	boolean isUploadInProgress(String fileName, String userId);
 
+	void concludeUploadWithFailure(String fileName, String userId);
+
 }

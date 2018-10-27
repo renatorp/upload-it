@@ -23,7 +23,8 @@ import com.example.uploadit.vo.FileRequestBody;
 @Service
 public class FileService implements IFileService {
 
-	private static final String CHUNK_PATH_FORMAT = "%s/%s/%s/%s.tmp";
+	private static final String CHUNKS_DIR_PATH_FORMAT = "%s/%s/%s/";
+	private static final String CHUNKS_FILE_EXTENSION = "%s.tmp";
 	private static final String FILE_PATH_FORMAT = "%s/%s/%s";
 
 	@Value("${upload-it.chunks.dir}")
@@ -89,7 +90,8 @@ public class FileService implements IFileService {
 	private void storeChunk(MultipartFile multipartFile, Integer chunkIndex, String userId) {
 
 		try {
-			String fileName = String.format(CHUNK_PATH_FORMAT, chunksDir, userId, multipartFile.getOriginalFilename(), chunkIndex);
+			String fileName = String.format(CHUNKS_DIR_PATH_FORMAT, chunksDir, userId,
+					multipartFile.getOriginalFilename()) + chunkIndex + "." + CHUNKS_FILE_EXTENSION;
 			fileHelper.storeMultipartFile(multipartFile, fileName);
 		} catch (IOException e) {
 			throw new RestApplicationException("An Unexpected Error Occurred While Saving the File",
@@ -111,7 +113,7 @@ public class FileService implements IFileService {
 		}
 
 		cleanExistingFileMetadata(requestBody.getFile().getOriginalFilename(), userId);
-		
+
 		FileMetadata metadata = fileMetadataHandler.createMetadata(requestBody, userId);
 		dataStore.insertMetadataFile(metadata);
 		return metadata;
@@ -125,17 +127,12 @@ public class FileService implements IFileService {
 	@Override
 	public boolean isUploadInProgress(String fileName, String userId) {
 		FileMetadata fileMetadata = findFileMetadata(fileName, userId);
-		return !fileMetadataHandler.isInProgress(fileMetadata);
+		return fileMetadataHandler.isInProgress(fileMetadata);
 	}
-	
+
 	@Override
 	public void concludeUpload(String fileName, String userId) {
 		FileMetadata fileMetadata = findFileMetadata(fileName, userId);
-
-		if (!fileMetadataHandler.isInProgress(fileMetadata)) {
-			throw new RestApplicationException(String.format("Upload process not in progress!", fileName),
-					HttpStatus.NO_CONTENT);
-		}
 
 		try {
 			mergeFileChunks(fileMetadata.getFileName(), fileMetadata.getTotalChunks(), fileMetadata.getUserId());
@@ -151,12 +148,14 @@ public class FileService implements IFileService {
 	private void mergeFileChunks(String fileName, Integer totalChunks, String userId) throws IOException {
 
 		String targetFile = String.format(FILE_PATH_FORMAT, filesDir, userId, fileName);
+		String sourceFolder = String.format(CHUNKS_DIR_PATH_FORMAT, chunksDir, userId, fileName);
 
-		List<String> sourceFiles = Stream.iterate(0, i -> ++i).limit(totalChunks).map(i -> String.format(CHUNK_PATH_FORMAT, chunksDir, userId, fileName, i))
-				.collect(Collectors.toList());
+		List<String> sourceFiles = Stream.iterate(0, i -> ++i).limit(totalChunks)
+				.map(i -> sourceFolder + i + "." + CHUNKS_FILE_EXTENSION).collect(Collectors.toList());
 
 		fileHelper.mergeFiles(sourceFiles, targetFile);
-//		fileHelper.deletefiles(soruce)
+
+		fileHelper.deleteDir(sourceFolder);
 
 	}
 
@@ -168,6 +167,13 @@ public class FileService implements IFileService {
 		}
 
 		return optional.get();
+	}
+
+	@Override
+	public void concludeUploadWithFailure(String fileName, String userId) {
+		FileMetadata fileMetadata = findFileMetadata(fileName, userId);
+		fileMetadataHandler.markAsProcessFailed(fileMetadata);
+		fileHelper.deleteDir(String.format(CHUNKS_DIR_PATH_FORMAT, chunksDir, userId, fileName));
 	}
 
 }
