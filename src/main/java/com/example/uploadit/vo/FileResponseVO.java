@@ -2,8 +2,6 @@ package com.example.uploadit.vo;
 
 import java.io.Serializable;
 
-import com.example.uploadit.enums.UploadStatusEnum;
-
 public class FileResponseVO implements Serializable {
 
 	private static final long serialVersionUID = -3366198496316925959L;
