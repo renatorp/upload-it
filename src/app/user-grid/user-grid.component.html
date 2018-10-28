@@ -1,0 +1,31 @@
+<form>
+  <div class="form-row">
+    <div class="col-auto">
+      <label class="sr-only" for="inlineFormInput">Usuário</label>
+      <input type="text" class="form-control" id="inlineFormInput" name="name" [(ngModel)]="newUser.name" placeholder="Usuário">
+    </div>
+    <div class="col-auto">
+      <label class="sr-only" for="inlineFormInputGroup">Senha</label>
+        <input type="text" class="form-control" id="inlineFormInputGroup" name="password" [(ngModel)]="newUser.password" placeholder="Senha">
+    </div>
+    <div class="col-auto">
+      <button type="button" class="btn btn-primary" (click)="addUser()" >Adicionar</button>
+    </div>
+  </div>
+</form>
+
+<div>
+  <h2>Usuários</h2>
+  <table class="table table-striped">
+    <tr>
+      <th>Id</th>
+      <th>Nome</th>
+      <th>Excluir</th>
+    </tr>
+    <tr *ngFor="let user of users">
+      <td>{{user.id}}</td>
+      <td>{{user.name}}</td>
+      <td><a href="javascript:void(0)" (click)="deleteUser(user.id)" class="btn btn-link btn-sm" role="button" aria-disabled="true">Excluir</a></td>
+    </tr>
+  </table>
+</div>

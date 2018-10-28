@@ -11,6 +11,8 @@ import { FilesGridComponent } from './files-grid/files-grid.component';
 import { DurationAsStringPipe } from './duration-as-string.pipe';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { UserGridComponent } from './user-grid/user-grid.component';
+import { FormsModule } from '@angular/forms';
 
 registerLocaleData(localePt, 'pt');
 
@@ -28,13 +30,15 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     AppComponent,
     FileUploadComponent,
     FilesGridComponent,
-    DurationAsStringPipe
+    DurationAsStringPipe,
+    UserGridComponent
   ],
   imports: [
     BrowserModule,
     DropzoneModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [
     { provide: DROPZONE_CONFIG, useValue: DEFAULT_DROPZONE_CONFIG},
