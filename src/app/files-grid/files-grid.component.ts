@@ -18,9 +18,4 @@ export class FilesGridComponent implements OnInit {
       this.files = this.apiService.findAllUploadedFiles();
   }
 
-  public download(fileId: string): void {
-    // this.apiService.downloadFile
-    console.log('teste');
-  }
-
 }

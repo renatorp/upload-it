@@ -47,12 +47,6 @@ export class ApiService {
     );
   }
 
-  public downloadFile(fileId: string): Observable<any> {
-    return this.http.get(environment.downloadFileUrl.replace('{0}', fileId), httpOptions).pipe(
-      tap(_ => this.log(`download file ` + fileId)),
-      catchError(this.handleError<any>('downloadFile')),
-    );
-  }
 /**
  * Handle Http operation that failed.
  * Let the app continue.
