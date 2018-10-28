@@ -14,6 +14,18 @@ public class UserInMemoryDataStore implements IUserInMemoryDataStore {
 
 	private static final List<User> userStore = new ArrayList<>();
 	
+	public UserInMemoryDataStore() {
+		createUserAdmin();
+	}
+
+	private void createUserAdmin() {
+		User user = new User();
+		user.setId(1);
+		user.setName("admin");
+		user.setPassword("admin");
+		createUser(user);
+	}
+	
 	@Override
 	public List<User> findAllUsers() {
 		return userStore;

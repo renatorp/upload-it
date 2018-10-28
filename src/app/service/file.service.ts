@@ -12,7 +12,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class FileService {
   constructor(private http: HttpClient) { }
 
   public reportUploadFailure(fileName: string, userId: string): Observable<any> {

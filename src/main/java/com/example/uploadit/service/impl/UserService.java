@@ -22,7 +22,9 @@ public class UserService implements IUserService {
 
 	@Override
 	public void deleteUser(Integer id) {
-		dataStore.deleteUserById(id);
+		if (id != 1) {
+			dataStore.deleteUserById(id);
+		}
 	}
 
 	@Override

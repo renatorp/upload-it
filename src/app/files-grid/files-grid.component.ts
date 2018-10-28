@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../service/api.service';
+import { FileService } from '../service/file.service';
 import { FileUpload } from '../model/file-upload';
 import { Observable } from 'rxjs';
 
@@ -12,10 +12,10 @@ export class FilesGridComponent implements OnInit {
 
   files: Observable<FileUpload[]>;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private fileService: FileService) { }
 
   ngOnInit() {
-      this.files = this.apiService.findAllUploadedFiles();
+      this.files = this.fileService.findAllUploadedFiles();
   }
 
 }

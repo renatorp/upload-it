@@ -7,7 +7,10 @@ export const environment = {
   uploadFileUrl: 'http://localhost:8080/files?user={0}',
   uploadFileSuccessUrl: 'http://localhost:8080/files/{0}/success?user={1}',
   uploadFileFailureUrl: 'http://localhost:8080/files/{0}/failure?user={1}',
-  allFilesUrl: 'http://localhost:8080/files'
+  allFilesUrl: 'http://localhost:8080/files',
+  listUsersUrl: 'http://localhost:8080/users',
+  deleteUserUrl: 'http://localhost:8080/users/{0}',
+  createUserUrl: 'http://localhost:8080/users'
 };
 
 /*

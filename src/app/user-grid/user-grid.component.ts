@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../model/user';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-user-grid',
@@ -11,24 +12,34 @@ export class UserGridComponent implements OnInit {
   public users: User[] = [];
   newUser: User;
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
-
     this.newUser = new User();
-
-    const user: User = new User();
-    user.id = 1;
-    user.name = 'admin';
-    this.users.push(user);
+    this.userService.findUsers().subscribe(
+      response => {
+        this.users = <User[]>response;
+      },
+      error => {}
+    );
   }
 
   deleteUser(id): void {
-    this.users = this.users.filter(u => u.id !== id);
+    this.userService.deleteUser(id).subscribe(
+      response => {
+        this.users = this.users.filter(u => u.id !== id);
+      },
+      error => {}
+    );
   }
 
   addUser(): void {
-    this.users.push(this.newUser);
-    this.newUser = new User();
+    this.userService.createUser(this.newUser).subscribe(
+      response => {
+        this.users.push(<User>response);
+        this.newUser = new User();
+      },
+      error => {}
+    );
   }
 }

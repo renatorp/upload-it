@@ -25,7 +25,7 @@
     <tr *ngFor="let user of users">
       <td>{{user.id}}</td>
       <td>{{user.name}}</td>
-      <td><a href="javascript:void(0)" (click)="deleteUser(user.id)" class="btn btn-link btn-sm" role="button" aria-disabled="true">Excluir</a></td>
+      <td><a href="javascript:void(0)" (click)="deleteUser(user.id)" *ngIf="user.id !== 1" class="btn btn-link btn-sm" role="button" aria-disabled="true">Excluir</a></td>
     </tr>
   </table>
 </div>
