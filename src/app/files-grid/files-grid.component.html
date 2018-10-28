@@ -15,7 +15,8 @@
       <td>{{file.status}}</td>
       <td>{{file.processDuration | durationAsString}}</td>
       <td>{{file.quantityOfBlocks}}</td>
-      <td><button type="button" class="btn btn-link" *ngIf="file.download != null" (click)="download(file.id)">Download</button></td>
+      <td><a [href]="file.download" *ngIf="file.download != null" class="btn btn-link btn-sm" download role="button" aria-disabled="true">Download</a></td>
+      <!-- <td><button type="button" class="btn btn-link"  (click)="download(file.id)">Download</button></td> -->
     </tr>
   </table>
 </div>

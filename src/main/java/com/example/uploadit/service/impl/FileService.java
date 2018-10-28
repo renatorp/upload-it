@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -199,6 +200,27 @@ public class FileService implements IFileService {
 		vo.setQuantityOfBlocks(metadata.getTotalChunks());
 		
 		return vo;
+	}
+
+	@Override
+	public Resource retrieveFileAsResource(String fileId) {
+		Optional<FileMetadata> uploadedFile = dataStore.findMetadataFileById(fileId);
+		
+		if (!uploadedFile.isPresent()) {
+			throw new RestApplicationException("File not found", HttpStatus.NOT_FOUND);
+		}
+
+		FileMetadata fileMetadata = uploadedFile.get();
+		String filePath = String.format(FILE_PATH_FORMAT, filesDir, fileMetadata.getUserId(), fileMetadata.getFileName());
+
+		Resource resource = fileHelper.loadFileAsResource(filePath);
+		
+		if (resource == null) {
+			throw new RestApplicationException("File not found", HttpStatus.NOT_FOUND);
+		}
+		
+		return resource;
+		
 	}
 
 }

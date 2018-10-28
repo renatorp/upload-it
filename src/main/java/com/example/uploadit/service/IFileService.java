@@ -2,6 +2,8 @@ package com.example.uploadit.service;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
+
 import com.example.uploadit.vo.FileRequestBody;
 import com.example.uploadit.vo.FileResponseVO;
 
@@ -16,5 +18,7 @@ public interface IFileService {
 	void concludeUploadWithFailure(String fileName, String userId);
 
 	List<FileResponseVO> listAllFiles();
+
+	Resource retrieveFileAsResource(String fileId);
 
 }
