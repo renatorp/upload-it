@@ -19,7 +19,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
    maxFilesize: null,
    chunking: true,
    acceptedFiles: null,
-   chunkSize: 1000000
+   chunkSize: 1000000,
+   parallelChunkUploads: true
  };
 
 @NgModule({
