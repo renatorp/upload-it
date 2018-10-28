@@ -12,28 +12,28 @@ import com.example.uploadit.store.IUserInMemoryDataStore;
 @Component
 public class UserInMemoryDataStore implements IUserInMemoryDataStore {
 
-	private static final List<User> users = new ArrayList<>();
+	private static final List<User> userStore = new ArrayList<>();
 	
 	@Override
 	public List<User> findAllUsers() {
-		return users;
+		return userStore;
 	}
 
 	@Override
 	public void deleteUserById(Integer id) {
-		users.removeIf(u -> u.getId().equals(id));
+		userStore.removeIf(u -> u.getId().equals(id));
 	}
 
 	@Override
 	public User createUser(User user) {
 		user.setId(generateId());
-		users.add(user);
+		userStore.add(user);
 			
 		return user;
 	}
 
 	private Integer generateId() {
-		Optional<Integer> max = users.stream().map(User::getId).max(Integer::compare);
+		Optional<Integer> max = userStore.stream().map(User::getId).max(Integer::compare);
 		if (max.isPresent()) {
 			return max.get() + 1;
 		} 

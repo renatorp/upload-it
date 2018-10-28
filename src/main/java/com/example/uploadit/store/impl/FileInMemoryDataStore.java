@@ -12,7 +12,7 @@ import com.example.uploadit.store.IFileInMemoryDataStore;
 @Component
 public class FileInMemoryDataStore implements IFileInMemoryDataStore {
 
-	private static List<FileMetadata> fileStore = new ArrayList<>();
+	private static final List<FileMetadata> fileStore = new ArrayList<>();
 
 	@Override
 	public Optional<FileMetadata> findMetadataFileById(String uuid) {
