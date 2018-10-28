@@ -1,9 +1,6 @@
 package com.example.uploadit.service.impl;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.net.URI;
-import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.uploadit.component.IFileHelper;
 import com.example.uploadit.component.IFileMetadataHandler;
@@ -190,24 +186,17 @@ public class FileService implements IFileService {
 			.collect(Collectors.toList());
 	}
 
-	private FileResponseVO convertFileMetadataToResponseVO(FileMetadata m) {
+	private FileResponseVO convertFileMetadataToResponseVO(FileMetadata metadata) {
 		
 		FileResponseVO vo = new FileResponseVO();
 
-		vo.setId(m.getId());
-		vo.setUserId(m.getUserId());
-		vo.setFileName(m.getFileName());
-		vo.setStatus(m.getStatus().getKey());
-
-		if (m.getDateTimeEndProcess() != null) {
-			vo.setProcessDuration(Duration.between(m.getDateTimeStartProcess(), m.getDateTimeEndProcess()).toMillis());
-
-			URI downloadLink = ServletUriComponentsBuilder.fromCurrentContextPath().path("files/{fileId}").buildAndExpand(m.getId()).toUri();
-			vo.setDownload(downloadLink.toString());
-		}
-		
-		vo.setQuantityOfBlocks(m.getTotalChunks());
-		
+		vo.setId(metadata.getId());
+		vo.setUserId(metadata.getUserId());
+		vo.setFileName(metadata.getFileName());
+		vo.setStatus(metadata.getStatus().getDescription());
+		vo.setProcessDuration(fileMetadataHandler.calculateProcessDurationInMillis(metadata));
+		vo.setDownload(fileMetadataHandler.generateDownloadUri(metadata));
+		vo.setQuantityOfBlocks(metadata.getTotalChunks());
 		
 		return vo;
 	}

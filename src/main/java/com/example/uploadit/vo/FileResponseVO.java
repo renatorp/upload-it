@@ -11,7 +11,7 @@ public class FileResponseVO implements Serializable {
 	private String id;
 	private String userId;
 	private String fileName;
-	private Integer status;
+	private String status;
 	private Long processDuration;
 	private Integer quantityOfBlocks;
 	private String download;
@@ -44,11 +44,11 @@ public class FileResponseVO implements Serializable {
 		return processDuration;
 	}
 
-	public Integer getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

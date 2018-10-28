@@ -1,16 +1,15 @@
 package com.example.uploadit.enums;
 
 public enum UploadStatusEnum {
-	NOT_STARTED(0), IN_PROGRESS(1), CONCLUDED(2), FAILED(3);
+	NOT_STARTED("Não Iniciado"), IN_PROGRESS("Em Progresso"), CONCLUDED("Concluído"), FAILED("Falha");
 
-	private Integer key;
+	private String description;
 
-	private UploadStatusEnum(Integer key) {
-		this.key = key;
+	private UploadStatusEnum(String description) {
+		this.description = description;
 	}
 
-	public Integer getKey() {
-		return key;
+	public String getDescription() {
+		return description;
 	}
-
 }

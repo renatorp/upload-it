@@ -47,7 +47,7 @@ public class FileResource {
 	public ResponseEntity<Object> handleUploadSuccess(@PathVariable("fileName") String fileName, @RequestParam("user") String userId) {
 		try {
 			if (!fileService.isUploadInProgress(fileName, userId)) {
-				ResponseEntity.noContent();
+				return ResponseEntity.noContent().build();
 			}
 			fileService.concludeUpload(fileName, userId);
 			return ResponseEntity.ok().build();

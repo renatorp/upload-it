@@ -21,4 +21,10 @@ public interface IFileMetadataHandler {
 
 	void markAsProcessFailed(FileMetadata fileMetadata);
 
+	boolean isProcessFinished(FileMetadata metadata);
+
+	String generateDownloadUri(FileMetadata metadata);
+
+	Long calculateProcessDurationInMillis(FileMetadata metadata);
+
 }

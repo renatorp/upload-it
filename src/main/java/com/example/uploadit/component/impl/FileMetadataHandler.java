@@ -1,11 +1,14 @@
 package com.example.uploadit.component.impl;
 
+import java.net.URI;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.uploadit.component.IFileMetadataHandler;
 import com.example.uploadit.entity.FileMetadata;
@@ -21,7 +24,7 @@ public class FileMetadataHandler implements IFileMetadataHandler {
 
 		String id = Objects.nonNull(requestBody.getDzuuid()) ? requestBody.getDzuuid() : UUID.randomUUID().toString();
 		Integer numChunks = Objects.nonNull(requestBody.getDztotalchunkcount()) ? requestBody.getDztotalchunkcount()
-				: 0;
+				: 1;
 		fileMetadata.setId(id);
 		fileMetadata.setFileName(requestBody.getFile().getOriginalFilename());
 		fileMetadata.setUserId(userId);
@@ -56,7 +59,7 @@ public class FileMetadataHandler implements IFileMetadataHandler {
 
 	@Override
 	public boolean isChunked(FileMetadata metadata) {
-		return metadata.getTotalChunks() != null;
+		return metadata.getTotalChunks() > 1;
 	}
 
 	@Override
@@ -70,4 +73,25 @@ public class FileMetadataHandler implements IFileMetadataHandler {
 		metadata.setDateTimeEndProcess(LocalDateTime.now());
 	}
 
+	@Override
+	public boolean isProcessFinished(FileMetadata metadata) {
+		return UploadStatusEnum.CONCLUDED.equals(metadata.getStatus());
+	}
+	
+	@Override
+	public Long calculateProcessDurationInMillis(FileMetadata metadata) {
+		if (isProcessFinished(metadata)) {
+			return Duration.between(metadata.getDateTimeStartProcess(), metadata.getDateTimeEndProcess()).toMillis();
+		}
+		return null;
+	}
+	
+	@Override
+	public String generateDownloadUri(FileMetadata metadata) {
+		if (isProcessFinished(metadata)) {
+			URI downloadLink = ServletUriComponentsBuilder.fromCurrentContextPath().path("files/{fileId}").buildAndExpand(metadata.getId()).toUri();
+			return downloadLink.toString();
+		}
+		return null;
+	}
 }
