@@ -10,7 +10,8 @@ export const environment = {
   allFilesUrl: 'http://localhost:8080/files',
   listUsersUrl: 'http://localhost:8080/users',
   deleteUserUrl: 'http://localhost:8080/users/{0}',
-  createUserUrl: 'http://localhost:8080/users'
+  createUserUrl: 'http://localhost:8080/users',
+  validateUserUrl: 'http://localhost:8080/users/login'
 };
 
 /*

@@ -12,5 +12,6 @@ public interface IUserService {
 
 	List<User> findUsers();
 
+	User validateUser(User user);
 
 }

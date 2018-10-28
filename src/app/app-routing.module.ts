@@ -4,11 +4,13 @@ import { RouterModule, Routes} from '@angular/router';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { FilesGridComponent } from './files-grid/files-grid.component';
 import { UserGridComponent } from './user-grid/user-grid.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
  {  path: 'upload', component: FileUploadComponent},
  {  path: 'files', component: FilesGridComponent},
- {  path: 'users', component: UserGridComponent}
+ {  path: 'users', component: UserGridComponent},
+ {  path: 'login', component: LoginComponent}
 ];
 
 @NgModule({

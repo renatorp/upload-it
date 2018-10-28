@@ -52,4 +52,10 @@ public class UserInMemoryDataStore implements IUserInMemoryDataStore {
 		return 1;
 	}
 
+	@Override
+	public Optional<User> findUserByNameAndPassword(User user) {
+		return userStore.stream()
+					.filter(u -> u.getName().equals(user.getName()) && u.getPassword().equals(user.getPassword()))
+					.findFirst();
+	}
 }

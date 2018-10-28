@@ -11,17 +11,20 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#">Login</a>
+            <li class="nav-item" *ngIf="!isAuthenticated()">
+              <a class="nav-link" routerLink="/login" href="#">Login</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isAuthenticated()">
               <a class="nav-link" routerLink="/upload" href="#">Upload</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isAuthenticated()">
                 <a class="nav-link" routerLink="/files" href="#">Arquivos</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isAuthenticated()">
                 <a class="nav-link" routerLink="/users" href="#">Usuários</a>
+            </li>
+            <li class="nav-item" *ngIf="isAuthenticated()">
+              <a class="nav-link" (click)="logout()" href="javascript:void(0)">Logout</a>
             </li>
           </ul>
       </div>

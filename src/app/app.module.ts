@@ -13,6 +13,7 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { UserGridComponent } from './user-grid/user-grid.component';
 import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
 
 registerLocaleData(localePt, 'pt');
 
@@ -31,7 +32,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     FileUploadComponent,
     FilesGridComponent,
     DurationAsStringPipe,
-    UserGridComponent
+    UserGridComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

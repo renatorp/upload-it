@@ -14,7 +14,7 @@ export class FileUploadComponent implements OnInit {
 
   constructor(private fileService: FileService) {
     // Remover userid fixo
-    this.userId = 1;
+    this.userId = localStorage.getItem('userId');
   }
 
   ngOnInit() {

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { of, Observable } from 'rxjs';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../model/user';
 import { environment } from 'src/environments/environment';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, map } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,8 +13,19 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class UserService {
+   constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient) { }
+  validateUser(user: User): Observable<any> {
+    return this.http.post(environment.validateUserUrl, user, httpOptions).pipe(
+      tap(_ => this.log(`validating user ` + name)),
+      catchError((err: HttpErrorResponse) => {
+        if (err.status === 401) {
+          return Observable.throw(err);
+        }
+        this.handleError<any>('validateUser', err);
+      })
+    );
+  }
 
   public findUsers(): Observable<User[]> {
     return this.http.get(environment.listUsersUrl, httpOptions).pipe(
@@ -36,7 +47,7 @@ export class UserService {
       catchError(this.handleError<any>('createUser'))
     );
   }
-  
+
 /**
  * Handle Http operation that failed.
  * Let the app continue.
