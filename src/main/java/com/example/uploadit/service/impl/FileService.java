@@ -18,7 +18,7 @@ import com.example.uploadit.component.IFileMetadataHandler;
 import com.example.uploadit.entity.FileMetadata;
 import com.example.uploadit.exception.RestApplicationException;
 import com.example.uploadit.service.IFileService;
-import com.example.uploadit.store.IInMemeoryDataStore;
+import com.example.uploadit.store.IFileInMemoryDataStore;
 import com.example.uploadit.vo.FileRequestBody;
 import com.example.uploadit.vo.FileResponseVO;
 
@@ -36,7 +36,7 @@ public class FileService implements IFileService {
 	private String filesDir;
 
 	@Autowired
-	private IInMemeoryDataStore dataStore;
+	private IFileInMemoryDataStore dataStore;
 
 	@Autowired
 	private IFileMetadataHandler fileMetadataHandler;

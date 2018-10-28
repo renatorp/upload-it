@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.example.uploadit.entity.FileMetadata;
 
-public interface IInMemeoryDataStore {
+public interface IFileInMemoryDataStore {
 
 	Optional<FileMetadata> findMetadataFileById(String uuid);
 

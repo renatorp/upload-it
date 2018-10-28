@@ -7,10 +7,10 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.example.uploadit.entity.FileMetadata;
-import com.example.uploadit.store.IInMemeoryDataStore;
+import com.example.uploadit.store.IFileInMemoryDataStore;
 
 @Component
-public class InMemoryDataStore implements IInMemeoryDataStore {
+public class FileInMemoryDataStore implements IFileInMemoryDataStore {
 
 	private static List<FileMetadata> fileStore = new ArrayList<>();
 
