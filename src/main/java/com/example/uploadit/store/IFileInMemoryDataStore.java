@@ -16,4 +16,6 @@ public interface IFileInMemoryDataStore {
 	void deleteFileMetadataByUserIdAndFileName(String originalFilename, String userId);
 
 	List<FileMetadata> findAllFilesMetadata();
+
+	List<FileMetadata> findDirtyFilesMetadataByUser(String userId);
 }

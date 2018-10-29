@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,8 @@ import com.example.uploadit.vo.FileResponseVO;
 @Service
 public class FileService implements IFileService {
 
+	private static final Logger logger = LoggerFactory.getLogger(FileService.class);
+	
 	@Autowired
 	private IFileInMemoryDataStore dataStore;
 
@@ -57,7 +61,7 @@ public class FileService implements IFileService {
 	private void storeContent(FileRequestBody requestBody, FileMetadata metadata) {
 
 		if (fileMetadataHandler.isChunked(metadata)) {
-			uploadStorageService.storeChunk(requestBody.getFile(), requestBody.getDzchunkindex(), metadata.getUserId());
+			uploadStorageService.storeChunk(requestBody.getFile(), requestBody.getDzchunkindex(), metadata.getUserId(), metadata.getId());
 			fileMetadataHandler.markChunkAsProcessed(metadata, requestBody.getDzchunkindex());
 
 		} else {
@@ -98,11 +102,12 @@ public class FileService implements IFileService {
 	}
 
 	@Override
-	public void concludeUpload(String fileName, String userId) {
+	public void concludeUploadWithSuccess(String fileName, String userId) {
+		
 		FileMetadata fileMetadata = findFileMetadata(fileName, userId);
 
 		try {
-			uploadStorageService.mergeFileChunks(fileMetadata.getFileName(), fileMetadata.getTotalChunks(), fileMetadata.getUserId());
+			uploadStorageService.mergeFileChunks(fileMetadata.getFileName(), fileMetadata.getTotalChunks(), fileMetadata.getUserId(), fileMetadata.getId());
 			fileMetadataHandler.markAsProcessConcluded(fileMetadata);
 		} catch (IOException e) {
 			fileMetadataHandler.markAsProcessFailed(fileMetadata);
@@ -126,7 +131,22 @@ public class FileService implements IFileService {
 	public void concludeUploadWithFailure(String fileName, String userId) {
 		FileMetadata fileMetadata = findFileMetadata(fileName, userId);
 		fileMetadataHandler.markAsProcessFailed(fileMetadata);
-		uploadStorageService.deleteFileChunks(userId, fileName);
+	}
+
+	
+	/**
+	 * Tenta limpar temporários gerados para não acumular no servidor.
+	 */
+	@Override
+	public void cleanRemainingChunkFiles(String userId) {
+		try {
+			dataStore.findDirtyFilesMetadataByUser(userId).forEach(m -> {
+				uploadStorageService.deleteFileChunks(userId, m.getId());
+				m.setDirty(false);
+			});
+		} catch (Exception e) {
+			logger.info("Não foi possível limpar chunks!!", e);
+		}
 	}
 
 	@Override

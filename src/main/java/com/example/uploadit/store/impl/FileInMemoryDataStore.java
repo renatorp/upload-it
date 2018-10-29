@@ -3,6 +3,7 @@ package com.example.uploadit.store.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -38,5 +39,12 @@ public class FileInMemoryDataStore implements IFileInMemoryDataStore {
 	@Override
 	public List<FileMetadata> findAllFilesMetadata() {
 		return fileStore;
+	}
+	
+	@Override
+	public List<FileMetadata> findDirtyFilesMetadataByUser(String userId) {
+		return fileStore.stream()
+					.filter(m -> m.getUserId().equals(userId) && m.isDirty())
+					.collect(Collectors.toList());
 	}
 }

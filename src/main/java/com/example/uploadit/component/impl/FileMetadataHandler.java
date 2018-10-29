@@ -49,6 +49,7 @@ public class FileMetadataHandler implements IFileMetadataHandler {
 	public void markAsProcessFailed(FileMetadata metadata) {
 		metadata.setStatus(UploadStatusEnum.FAILED);
 		metadata.setDateTimeEndProcess(LocalDateTime.now());
+		metadata.setDirty(true);
 	}
 
 	@Override

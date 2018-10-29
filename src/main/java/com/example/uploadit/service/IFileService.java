@@ -11,7 +11,7 @@ public interface IFileService {
 
 	void uploadFile(FileRequestBody requestBody, String userId);
 
-	void concludeUpload(String fileName, String userId);
+	void concludeUploadWithSuccess(String fileName, String userId);
 
 	boolean isUploadInProgress(String fileName, String userId);
 
@@ -20,5 +20,7 @@ public interface IFileService {
 	List<FileResponseVO> listAllFiles();
 
 	Resource retrieveFileAsResource(String fileId);
+
+	void cleanRemainingChunkFiles(String userId);
 
 }

@@ -15,6 +15,12 @@ public class FileMetadata {
 	private UploadStatusEnum status;
 	private LocalDateTime dateTimeStartProcess;
 	private LocalDateTime dateTimeEndProcess;
+	
+	/**
+	 * Indica que, devido a uma falha no processo de upload do arquivo,
+	 * alguns blocos (chunks) não tenha sido removidos do servidor. 
+	 */
+	private boolean dirty;
 
 	public String getId() {
 		return id;
@@ -78,6 +84,14 @@ public class FileMetadata {
 
 	public void setDateTimeEndProcess(LocalDateTime dateTimeEndProcess) {
 		this.dateTimeEndProcess = dateTimeEndProcess;
+	}
+
+	public boolean isDirty() {
+		return dirty;
+	}
+
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
 	}
 
 }

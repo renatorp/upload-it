@@ -31,10 +31,11 @@ public class UploadStorageService implements IUploadStorageService {
 	@Autowired
 	private IFileHelper fileHelper;
 	
-	public void storeChunk(MultipartFile multipartFile, Integer chunkIndex, String userId) {
+	@Override
+	public void storeChunk(MultipartFile multipartFile, Integer chunkIndex, String userId, String fileId) {
 
 		try {
-			String filePath = retrieveChunkPath(chunkIndex, userId, multipartFile.getOriginalFilename());
+			String filePath = retrieveChunkPath(chunkIndex, userId, fileId);
 			fileHelper.storeMultipartFile(multipartFile, filePath);
 		} catch (IOException e) {
 			throw new RestApplicationException("Ocorreu um erro inesperado ao salvar o arquivo.",
@@ -43,6 +44,7 @@ public class UploadStorageService implements IUploadStorageService {
 
 	}
 
+	@Override
 	public void storeFile(MultipartFile multipartFile, String userId) {
 		try {
 			String filePath = retrieveFilePath(userId, multipartFile.getOriginalFilename());
@@ -54,24 +56,24 @@ public class UploadStorageService implements IUploadStorageService {
 
 	}
 
-	public void mergeFileChunks(String fileName, Integer totalChunks, String userId) throws IOException {
+	@Override
+	public void mergeFileChunks(String fileName, Integer totalChunks, String userId, String fileId) throws IOException {
 
 		String targetFile = retrieveFilePath(userId, fileName);
 
 		List<String> sourceFiles = Stream.iterate(0, i -> ++i)
 				.limit(totalChunks)
-				.map(i -> retrieveChunkPath(i, userId, fileName))
+				.map(i -> retrieveChunkPath(i, userId, fileId))
 				.collect(Collectors.toList());
 
 		fileHelper.mergeFiles(sourceFiles, targetFile);
 
-		deleteFileChunks(userId, fileName);
-
+		deleteFileChunks(userId, fileId);
 	}
 	
 	@Override
-	public void deleteFileChunks(String userId, String fileName) {
-		fileHelper.deleteDir(retrieveChunksDir(userId, fileName));
+	public void deleteFileChunks(String userId, String fileId) {
+		fileHelper.deleteDir(retrieveChunksDir(userId, fileId));
 	}
 	
 	@Override
@@ -79,11 +81,11 @@ public class UploadStorageService implements IUploadStorageService {
 		return String.format(FILE_PATH_FORMAT, filesDir, userId, fileName);
 	}
 	
-	private String retrieveChunkPath(Integer chunkIndex, String userId, String fileName) {
-		return retrieveChunksDir(userId, fileName) + chunkIndex + CHUNKS_FILE_EXTENSION;
+	private String retrieveChunkPath(Integer chunkIndex, String userId, String fileId) {
+		return retrieveChunksDir(userId, fileId) + chunkIndex + CHUNKS_FILE_EXTENSION;
 	}
 
-	private String retrieveChunksDir(String userId, String fileName) {
-		return String.format(CHUNKS_DIR_PATH_FORMAT, chunksDir, userId, fileName);
+	private String retrieveChunksDir(String userId, String fileId) {
+		return String.format(CHUNKS_DIR_PATH_FORMAT, chunksDir, userId, fileId);
 	}
 }

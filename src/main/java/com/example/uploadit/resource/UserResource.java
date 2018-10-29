@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ public class UserResource {
 	@Autowired
 	private IErrorHandler errorHandler;
 	
+	@CrossOrigin
 	@ApiOperation(value = "Cria um novo usuário.", response = User.class)
 	@ApiResponses({
 		@ApiResponse(code = 201, message = "Usuário criado com sucesso."),
@@ -50,6 +52,7 @@ public class UserResource {
 		}
 	}
 	
+	@CrossOrigin
 	@ApiOperation("Deleta um usuário cadastrado. O usuário id=1 (admin) não pode ser removido.")
 	@ApiResponses({
 		@ApiResponse(code = 201, message = "Usuário removido com sucesso."),
@@ -60,6 +63,7 @@ public class UserResource {
 		return ResponseEntity.ok().build();
 	}
 	
+	@CrossOrigin
 	@ApiOperation(value = "Busca todos os usuários cadastrados.", response = List.class)
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "Busca efetuada com sucesso."),
@@ -70,6 +74,7 @@ public class UserResource {
 		return ResponseEntity.ok(users);
 	}
 	
+	@CrossOrigin
 	@ApiOperation(value = "Valida se um usuário possui o nome e a senha "
 			+ "informados. Se o usuário for encontrado, é retornado.", response = User.class)
 	@ApiResponses({
