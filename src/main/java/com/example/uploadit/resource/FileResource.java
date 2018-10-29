@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +47,6 @@ public class FileResource {
 	@Autowired
 	private IErrorHandler errorHandler;
 
-	@CrossOrigin
 	@ApiOperation(value = "Efetua upload de arquivo, esteja ele dividido em blocos ou não. "
 			+ "Ao lidar com upload de múltiplos blocos, "
 			+ "esta operação deve ser invocada para todos. "
@@ -69,7 +67,6 @@ public class FileResource {
 		}
 	}
 	
-	@CrossOrigin
 	@ApiOperation("Operação a ser realizada após operações de upload indicando "
 			+ "que houve sucesso no processo. Caso o upload tenha sido feito em blocos, "
 			+ "nesse momento eles são mesclados em um arquivo único arquivo para "
@@ -94,7 +91,6 @@ public class FileResource {
 		}
 	}
 
-	@CrossOrigin
 	@ApiOperation("Operação a ser realizada após operações de upload indicando "
 			+ "que houve falha no processo.")
 	@ApiResponses({
@@ -113,7 +109,6 @@ public class FileResource {
 		}
 	}
 	
-	@CrossOrigin
 	@ApiOperation(value = "Lista informações sobre todos os arquivos que foram enviados.", response = List.class)
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "Dados retornados com sucesso."),
@@ -129,7 +124,6 @@ public class FileResource {
 		}
 	}
 	
-	@CrossOrigin
 	@ApiOperation("Efetua operação de download de arquivo.")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "Requisição de arquivo efetuada com sucesso."),
@@ -138,14 +132,19 @@ public class FileResource {
 	@GetMapping("{fileId}")
 	public ResponseEntity<Object> downloadFile(@ApiParam("Identificador do arquivo") @PathVariable("fileId") String fileId, ServletRequest request) {
 		
-		Resource resource = fileService.retrieveFileAsResource(fileId);
-		
-        String contentType = tryToDetermineContentType(request, resource);
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
+		try {
+			Resource resource = fileService.retrieveFileAsResource(fileId);
+			
+	        String contentType = tryToDetermineContentType(request, resource);
+	
+	        return ResponseEntity.ok()
+	                .contentType(MediaType.parseMediaType(contentType))
+	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+	                .body(resource);
+        
+		} catch (Exception e) {
+			return errorHandler.handleError(e);
+		}
 	}
 
 	private String tryToDetermineContentType(ServletRequest request, Resource resource) {

@@ -21,6 +21,11 @@ public class UserService implements IUserService {
 	
 	@Override
 	public User createUser(User user) {
+		
+		if (StringUtils.isEmpty(user.getName()) || StringUtils.isEmpty(user.getPassword())) {
+			throw new RestApplicationException("O nome e a senha do usuário são obrigatórios!", HttpStatus.BAD_REQUEST);
+		}
+		
 		return dataStore.createUser(user);
 	}
 
