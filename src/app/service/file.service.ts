@@ -22,8 +22,7 @@ export class FileService {
     .replace('{1}', userId);
 
     return this.http.patch(url, httpOptions).pipe(
-      tap(_ => this.log(`report failure flie id=${fileName}`)),
-      catchError(this.handleError<any>('reportUploadFailure'))
+      tap(_ => this.log(`report failure flie id=${fileName}`))
     );
   }
 
@@ -34,15 +33,13 @@ export class FileService {
       .replace('{1}', userId);
 
     return this.http.patch(url, httpOptions).pipe(
-      tap(_ => this.log(`report success flie id=${fileName}`)),
-      catchError(this.handleError<any>('reportUploadSuccess'))
+      tap(_ => this.log(`report success flie id=${fileName}`))
     );
   }
 
   public findAllUploadedFiles(): Observable<FileUpload[]> {
     return this.http.get(environment.allFilesUrl, httpOptions).pipe(
       tap(_ => this.log(`find all uploaded files`)),
-      catchError(this.handleError<any>('findAllUploadedFiles')),
       map(r => <FileUpload[]> r)
     );
   }

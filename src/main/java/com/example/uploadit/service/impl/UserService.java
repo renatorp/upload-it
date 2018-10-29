@@ -40,17 +40,17 @@ public class UserService implements IUserService {
 	public User validateUser(User user) {
 		
 		if (StringUtils.isEmpty(user.getName())) {
-			throw new RestApplicationException("User name is mandatory!", HttpStatus.BAD_REQUEST);
+			throw new RestApplicationException("O nome do usuário é obrigatório!", HttpStatus.BAD_REQUEST);
 		}
 		
 		if (StringUtils.isEmpty(user.getPassword())) {
-			throw new RestApplicationException("User password is mandatory", HttpStatus.BAD_REQUEST);
+			throw new RestApplicationException("A senha do usuário é obrigatória!", HttpStatus.BAD_REQUEST);
 		}
 		
 		Optional<User> opt = dataStore.findUserByNameAndPassword(user);
 		
 		if (!opt.isPresent()) {
-			throw new RestApplicationException("Authentication Failed!", HttpStatus.UNAUTHORIZED);
+			throw new RestApplicationException("Falha de autenticação!", HttpStatus.UNAUTHORIZED);
 		}
 		
 		return opt.get();

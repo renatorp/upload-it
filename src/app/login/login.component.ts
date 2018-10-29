@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../model/user';
 import { UserService } from '../service/user.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { ErrorHandlerService } from '../error-handler.service';
 
 @Component({
   selector: 'app-login',
@@ -12,22 +14,20 @@ export class LoginComponent implements OnInit {
 
   user: User;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router, private errorHandler: ErrorHandlerService) { }
 
   ngOnInit() {
     this.user = new User();
   }
 
   authenticate() {
-    if (this.user.name && this.user.password) {
       this.userService.validateUser(this.user).subscribe(
         response => {
            const user = <User>response;
            localStorage.setItem('userId', user.id.toString());
            this.router.navigate(['/upload']);
         },
-        error => {}
+        error => { this.errorHandler.handleError(error); }
       );
-    }
   }
 }

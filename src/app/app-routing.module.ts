@@ -8,8 +8,8 @@ import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
  {  path: 'upload', component: FileUploadComponent},
- {  path: 'files', component: FilesGridComponent},
- {  path: 'users', component: UserGridComponent},
+ {  path: 'files-list', component: FilesGridComponent},
+ {  path: 'users-list', component: UserGridComponent},
  {  path: 'login', component: LoginComponent}
 ];
 

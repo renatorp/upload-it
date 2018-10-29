@@ -14,6 +14,8 @@ import localePt from '@angular/common/locales/pt';
 import { UserGridComponent } from './user-grid/user-grid.component';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 registerLocaleData(localePt, 'pt');
 
@@ -40,7 +42,9 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     DropzoneModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     { provide: DROPZONE_CONFIG, useValue: DEFAULT_DROPZONE_CONFIG},

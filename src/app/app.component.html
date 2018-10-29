@@ -18,10 +18,10 @@
               <a class="nav-link" routerLink="/upload" href="#">Upload</a>
             </li>
             <li class="nav-item" *ngIf="isAuthenticated()">
-                <a class="nav-link" routerLink="/files" href="#">Arquivos</a>
+                <a class="nav-link" routerLink="/files-list" href="#">Arquivos</a>
             </li>
             <li class="nav-item" *ngIf="isAuthenticated()">
-                <a class="nav-link" routerLink="/users" href="#">Usuários</a>
+                <a class="nav-link" routerLink="/users-list" href="#">Usuários</a>
             </li>
             <li class="nav-item" *ngIf="isAuthenticated()">
               <a class="nav-link" (click)="logout()" href="javascript:void(0)">Logout</a>

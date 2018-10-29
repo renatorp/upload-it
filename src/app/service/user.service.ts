@@ -17,52 +17,27 @@ export class UserService {
 
   validateUser(user: User): Observable<any> {
     return this.http.post(environment.validateUserUrl, user, httpOptions).pipe(
-      tap(_ => this.log(`validating user ` + name)),
-      catchError((err: HttpErrorResponse) => {
-        if (err.status === 401) {
-          return Observable.throw(err);
-        }
-        this.handleError<any>('validateUser', err);
-      })
+      tap(_ => this.log(`validating user ` + name))
     );
   }
 
-  public findUsers(): Observable<User[]> {
+  public findUsers(): Observable<any> {
     return this.http.get(environment.listUsersUrl, httpOptions).pipe(
-      tap(_ => this.log(`find users`)),
-      catchError(this.handleError<any>('findUsers'))
+      tap(_ => this.log(`find users`))
     );
   }
 
   public deleteUser(id: string): Observable<any> {
     return this.http.delete(environment.deleteUserUrl.replace('{0}', id), httpOptions).pipe(
-      tap(_ => this.log(`deleting user ` + id)),
-      catchError(this.handleError<any>('deleteUser'))
+      tap(_ => this.log(`deleting user ` + id))
     );
   }
 
   public createUser(user: User): Observable<any> {
     return this.http.put(environment.createUserUrl, user, httpOptions).pipe(
-      tap(_ => this.log(`create new user`)),
-      catchError(this.handleError<any>('createUser'))
+      tap(_ => this.log(`create new user`))
     );
   }
-
-/**
- * Handle Http operation that failed.
- * Let the app continue.
- * @param operation - name of the operation that failed
- * @param result - optional value to return as the observable result
- */
-private handleError<T> (operation = 'operation', result?: T) {
-  return (error: any): Observable<T> => {
-
-    this.log(`${operation} failed: ${error.message}`);
-
-    // Let the app keep running by returning an empty result.
-    return of(result as T);
-  };
-}
 
 /** Log a HeroService message with the MessageService */
 private log(message: string) {

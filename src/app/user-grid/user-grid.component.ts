@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../model/user';
 import { UserService } from '../service/user.service';
+import { ErrorHandlerService } from '../error-handler.service';
 
 @Component({
   selector: 'app-user-grid',
@@ -12,7 +13,7 @@ export class UserGridComponent implements OnInit {
   public users: User[] = [];
   newUser: User;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private errorHandler: ErrorHandlerService) { }
 
   ngOnInit() {
     this.newUser = new User();
@@ -20,7 +21,7 @@ export class UserGridComponent implements OnInit {
       response => {
         this.users = <User[]>response;
       },
-      error => {}
+      error => { this.errorHandler.handleError(error); }
     );
   }
 
@@ -29,7 +30,7 @@ export class UserGridComponent implements OnInit {
       response => {
         this.users = this.users.filter(u => u.id !== id);
       },
-      error => {}
+      error => { this.errorHandler.handleError(error); }
     );
   }
 
@@ -39,7 +40,7 @@ export class UserGridComponent implements OnInit {
         this.users.push(<User>response);
         this.newUser = new User();
       },
-      error => {}
+      error => { this.errorHandler.handleError(error); }
     );
   }
 }
