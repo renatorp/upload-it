@@ -38,7 +38,7 @@ usuário: admin
 senha: admin
 ```
 
-Url de acesso à doc da API
+Url de acesso à doc da API:
 ```
 http://localhost:8080/swagger-ui.html
 ```
