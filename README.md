@@ -1,4 +1,4 @@
-# UploadIt
+# Upload It
 
 Aplicação web para upload de arquivos e listagem de arquivos enviados utilizando a linguagem de programação Java. Todo o trabalho é realização através do consumo de APIs REST.
 
