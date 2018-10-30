@@ -1,4 +1,4 @@
-<form>
+<form *ngIf="isAdmin()">
   <div class="form-row">
     <div class="col-auto">
       <label class="sr-only" for="inlineFormInput">Usuário</label>
@@ -20,12 +20,12 @@
     <tr>
       <th>Id</th>
       <th>Nome</th>
-      <th>Excluir</th>
+      <th *ngIf="isAdmin()" >Excluir</th>
     </tr>
     <tr *ngFor="let user of users">
       <td>{{user.id}}</td>
       <td>{{user.name}}</td>
-      <td><a href="javascript:void(0)" (click)="deleteUser(user.id)" *ngIf="user.id !== 1" class="btn btn-link btn-sm" role="button" aria-disabled="true">Excluir</a></td>
+      <td *ngIf="isAdmin()"><a href="javascript:void(0)" (click)="deleteUser(user.id)" *ngIf="user.id !== 1" class="btn btn-link btn-sm" role="button" aria-disabled="true">Excluir</a></td>
     </tr>
   </table>
 </div>

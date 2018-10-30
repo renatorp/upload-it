@@ -43,4 +43,8 @@ export class UserGridComponent implements OnInit {
       error => { this.errorHandler.handleError(error); }
     );
   }
+
+  isAdmin(): boolean {
+    return localStorage.getItem('userId') === '1';
+  }
 }
