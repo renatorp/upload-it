@@ -55,7 +55,7 @@ public class UserResource {
 	@CrossOrigin
 	@ApiOperation("Deleta um usuário cadastrado. O usuário id=1 (admin) não pode ser removido.")
 	@ApiResponses({
-		@ApiResponse(code = 201, message = "Usuário removido com sucesso."),
+		@ApiResponse(code = 200, message = "Usuário removido com sucesso."),
 	})
 	@DeleteMapping("{id}")
 	public ResponseEntity<Object> deleteUser(@ApiParam("Identificador do usuário") @PathVariable("id") Integer id) {
