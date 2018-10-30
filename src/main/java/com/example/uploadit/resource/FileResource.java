@@ -59,7 +59,7 @@ public class FileResource {
 			@ApiResponse(code = 500, message = "Erro inesperado no servidor.")
 	})
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<Object> handleFileUpload(@ApiParam("Arquivo a ser enviado") @RequestPart("file") MultipartFile file, @ApiParam("Identificador do usuário") @RequestParam("user") String userId, FileRequestBody requestBody) {
+	public ResponseEntity<Object> handleFileUpload(@ApiParam("Arquivo a ser enviado") @RequestPart("file") MultipartFile file, @ApiParam("Identificador do usuário") @RequestParam("user") Integer userId, FileRequestBody requestBody) {
 		try {
 			requestBody.setFile(file);
 			fileService.uploadFile(requestBody, userId);
@@ -81,7 +81,7 @@ public class FileResource {
 		@ApiResponse(code = 500, message = "Erro inesperado no servidor.")
 	})
 	@PatchMapping("/{fileName}/success")
-	public ResponseEntity<Object> handleUploadSuccess(@ApiParam("Nome do arquivo") @PathVariable("fileName") String fileName, @ApiParam("Identificador do usuário") @RequestParam("user") String userId) {
+	public ResponseEntity<Object> handleUploadSuccess(@ApiParam("Nome do arquivo") @PathVariable("fileName") String fileName, @ApiParam("Identificador do usuário") @RequestParam("user") Integer userId) {
 		try {
 			fileService.cleanRemainingChunkFiles(userId);
 			
@@ -105,7 +105,7 @@ public class FileResource {
 		@ApiResponse(code = 500, message = "Erro inesperado no servidor.")
 	})
 	@PatchMapping("{fileName}/failure")
-	public ResponseEntity<Object> handleUploadFailure(@ApiParam("Nome do arquivo") @PathVariable("fileName") String fileName, @ApiParam("Identificador do usuário") @RequestParam("user") String userId) {
+	public ResponseEntity<Object> handleUploadFailure(@ApiParam("Nome do arquivo") @PathVariable("fileName") String fileName, @ApiParam("Identificador do usuário") @RequestParam("user") Integer userId) {
 		try {
 			fileService.cleanRemainingChunkFiles(userId);
 			

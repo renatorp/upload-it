@@ -9,18 +9,18 @@ import com.example.uploadit.vo.FileResponseVO;
 
 public interface IFileService {
 
-	void uploadFile(FileRequestBody requestBody, String userId);
+	void uploadFile(FileRequestBody requestBody, Integer userId);
 
-	void concludeUploadWithSuccess(String fileName, String userId);
+	void concludeUploadWithSuccess(String fileName, Integer userId);
 
-	boolean isUploadInProgress(String fileName, String userId);
+	boolean isUploadInProgress(String fileName, Integer userId);
 
-	void concludeUploadWithFailure(String fileName, String userId);
+	void concludeUploadWithFailure(String fileName, Integer userId);
 
 	List<FileResponseVO> listAllFiles();
 
 	Resource retrieveFileAsResource(String fileId);
 
-	void cleanRemainingChunkFiles(String userId);
+	void cleanRemainingChunkFiles(Integer userId);
 
 }

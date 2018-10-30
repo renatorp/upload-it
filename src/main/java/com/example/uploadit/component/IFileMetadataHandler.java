@@ -5,7 +5,7 @@ import com.example.uploadit.vo.FileRequestBody;
 
 public interface IFileMetadataHandler {
 
-	FileMetadata createMetadata(FileRequestBody requestBody, String userId);
+	FileMetadata createMetadata(FileRequestBody requestBody, Integer userId);
 
 	boolean isNew(FileMetadata metadata);
 

@@ -26,13 +26,13 @@ public class FileInMemoryDataStore implements IFileInMemoryDataStore {
 	}
 
 	@Override
-	public Optional<FileMetadata> findMetadataFileByUserAndFileName(String fileName, String userId) {
+	public Optional<FileMetadata> findMetadataFileByUserAndFileName(String fileName, Integer userId) {
 		return fileStore.stream().filter(m -> m.getFileName().equals(fileName) && m.getUserId().equals(userId))
 				.findFirst();
 	}
 
 	@Override
-	public void deleteFileMetadataByUserIdAndFileName(String fileName, String userId) {
+	public void deleteFileMetadataByUserIdAndFileName(String fileName, Integer userId) {
 		fileStore.removeIf(m -> m.getFileName().equals(fileName) && m.getUserId().equals(userId));
 	}
 
@@ -42,7 +42,7 @@ public class FileInMemoryDataStore implements IFileInMemoryDataStore {
 	}
 	
 	@Override
-	public List<FileMetadata> findDirtyFilesMetadataByUser(String userId) {
+	public List<FileMetadata> findDirtyFilesMetadataByUser(Integer userId) {
 		return fileStore.stream()
 					.filter(m -> m.getUserId().equals(userId) && m.isDirty())
 					.collect(Collectors.toList());

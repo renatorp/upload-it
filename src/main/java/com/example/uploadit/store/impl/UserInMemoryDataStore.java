@@ -39,6 +39,7 @@ public class UserInMemoryDataStore implements IUserInMemoryDataStore {
 	@Override
 	public User createUser(User user) {
 		user.setId(generateId());
+		user.setName(user.getName().trim());
 		userStore.add(user);
 			
 		return user;

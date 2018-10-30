@@ -19,7 +19,7 @@ import com.example.uploadit.vo.FileRequestBody;
 public class FileMetadataHandler implements IFileMetadataHandler {
 
 	@Override
-	public FileMetadata createMetadata(FileRequestBody requestBody, String userId) {
+	public FileMetadata createMetadata(FileRequestBody requestBody, Integer userId) {
 		FileMetadata fileMetadata = new FileMetadata();
 
 		String id = Objects.nonNull(requestBody.getDzuuid()) ? requestBody.getDzuuid() : UUID.randomUUID().toString();

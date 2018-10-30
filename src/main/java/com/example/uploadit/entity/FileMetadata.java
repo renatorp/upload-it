@@ -9,7 +9,7 @@ public class FileMetadata {
 
 	private String id;
 	private String fileName;
-	private String userId;
+	private Integer userId;
 	private Integer totalChunks;
 	private Set<Integer> processedChunks;
 	private UploadStatusEnum status;
@@ -38,11 +38,11 @@ public class FileMetadata {
 		this.fileName = fileName;
 	}
 
-	public String getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 

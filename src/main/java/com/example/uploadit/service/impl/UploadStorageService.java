@@ -32,7 +32,7 @@ public class UploadStorageService implements IUploadStorageService {
 	private IFileHelper fileHelper;
 	
 	@Override
-	public void storeChunk(MultipartFile multipartFile, Integer chunkIndex, String userId, String fileId) {
+	public void storeChunk(MultipartFile multipartFile, Integer chunkIndex, Integer userId, String fileId) {
 
 		try {
 			String filePath = retrieveChunkPath(chunkIndex, userId, fileId);
@@ -45,7 +45,7 @@ public class UploadStorageService implements IUploadStorageService {
 	}
 
 	@Override
-	public void storeFile(MultipartFile multipartFile, String userId) {
+	public void storeFile(MultipartFile multipartFile, Integer userId) {
 		try {
 			String filePath = retrieveFilePath(userId, multipartFile.getOriginalFilename());
 			fileHelper.storeMultipartFile(multipartFile, filePath);
@@ -57,7 +57,7 @@ public class UploadStorageService implements IUploadStorageService {
 	}
 
 	@Override
-	public void mergeFileChunks(String fileName, Integer totalChunks, String userId, String fileId) throws IOException {
+	public void mergeFileChunks(String fileName, Integer totalChunks, Integer userId, String fileId) throws IOException {
 
 		String targetFile = retrieveFilePath(userId, fileName);
 
@@ -72,20 +72,20 @@ public class UploadStorageService implements IUploadStorageService {
 	}
 	
 	@Override
-	public void deleteFileChunks(String userId, String fileId) {
+	public void deleteFileChunks(Integer userId, String fileId) {
 		fileHelper.deleteDir(retrieveChunksDir(userId, fileId));
 	}
 	
 	@Override
-	public String retrieveFilePath(String userId, String fileName) {
+	public String retrieveFilePath(Integer userId, String fileName) {
 		return String.format(FILE_PATH_FORMAT, filesDir, userId, fileName);
 	}
 	
-	private String retrieveChunkPath(Integer chunkIndex, String userId, String fileId) {
+	private String retrieveChunkPath(Integer chunkIndex, Integer userId, String fileId) {
 		return retrieveChunksDir(userId, fileId) + chunkIndex + CHUNKS_FILE_EXTENSION;
 	}
 
-	private String retrieveChunksDir(String userId, String fileId) {
+	private String retrieveChunksDir(Integer userId, String fileId) {
 		return String.format(CHUNKS_DIR_PATH_FORMAT, chunksDir, userId, fileId);
 	}
 }

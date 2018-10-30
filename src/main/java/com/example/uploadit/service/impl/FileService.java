@@ -43,7 +43,7 @@ public class FileService implements IFileService {
 	 * Armazena chunks de arquivos que foram subidos, assim como seus metadados.
 	 */
 	@Override
-	public void uploadFile(FileRequestBody requestBody, String userId) {
+	public void uploadFile(FileRequestBody requestBody, Integer userId) {
 
 		FileMetadata metadata = getFileMetadata(requestBody, userId);
 
@@ -75,7 +75,7 @@ public class FileService implements IFileService {
 	 * Obtém metadados de arquivo. Se o arquivo for novo, cria um registro e o
 	 * armazena/retorna.
 	 */
-	private FileMetadata getFileMetadata(FileRequestBody requestBody, String userId) {
+	private FileMetadata getFileMetadata(FileRequestBody requestBody, Integer userId) {
 
 		Optional<FileMetadata> uploadedFile = dataStore.findMetadataFileById(requestBody.getDzuuid());
 
@@ -91,18 +91,18 @@ public class FileService implements IFileService {
 
 	}
 
-	private void cleanExistingFileMetadata(String fileName, String userId) {
+	private void cleanExistingFileMetadata(String fileName, Integer userId) {
 		dataStore.deleteFileMetadataByUserIdAndFileName(fileName, userId);
 	}
 
 	@Override
-	public boolean isUploadInProgress(String fileName, String userId) {
+	public boolean isUploadInProgress(String fileName, Integer userId) {
 		FileMetadata fileMetadata = findFileMetadata(fileName, userId);
 		return fileMetadataHandler.isInProgress(fileMetadata);
 	}
 
 	@Override
-	public void concludeUploadWithSuccess(String fileName, String userId) {
+	public void concludeUploadWithSuccess(String fileName, Integer userId) {
 		
 		FileMetadata fileMetadata = findFileMetadata(fileName, userId);
 
@@ -117,7 +117,7 @@ public class FileService implements IFileService {
 
 	}
 
-	private FileMetadata findFileMetadata(String fileName, String userId) {
+	private FileMetadata findFileMetadata(String fileName, Integer userId) {
 		Optional<FileMetadata> optional = dataStore.findMetadataFileByUserAndFileName(fileName, userId);
 
 		if (!optional.isPresent()) {
@@ -128,7 +128,7 @@ public class FileService implements IFileService {
 	}
 
 	@Override
-	public void concludeUploadWithFailure(String fileName, String userId) {
+	public void concludeUploadWithFailure(String fileName, Integer userId) {
 		FileMetadata fileMetadata = findFileMetadata(fileName, userId);
 		fileMetadataHandler.markAsProcessFailed(fileMetadata);
 	}
@@ -138,7 +138,7 @@ public class FileService implements IFileService {
 	 * Tenta limpar temporários gerados para não acumular no servidor.
 	 */
 	@Override
-	public void cleanRemainingChunkFiles(String userId) {
+	public void cleanRemainingChunkFiles(Integer userId) {
 		try {
 			dataStore.findDirtyFilesMetadataByUser(userId).forEach(m -> {
 				uploadStorageService.deleteFileChunks(userId, m.getId());

@@ -11,11 +11,11 @@ public interface IFileInMemoryDataStore {
 
 	void insertMetadataFile(FileMetadata fileMetadata);
 
-	Optional<FileMetadata> findMetadataFileByUserAndFileName(String fileName, String userId);
+	Optional<FileMetadata> findMetadataFileByUserAndFileName(String fileName, Integer userId);
 
-	void deleteFileMetadataByUserIdAndFileName(String originalFilename, String userId);
+	void deleteFileMetadataByUserIdAndFileName(String originalFilename, Integer userId);
 
 	List<FileMetadata> findAllFilesMetadata();
 
-	List<FileMetadata> findDirtyFilesMetadataByUser(String userId);
+	List<FileMetadata> findDirtyFilesMetadataByUser(Integer userId);
 }

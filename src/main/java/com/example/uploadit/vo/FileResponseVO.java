@@ -7,7 +7,7 @@ public class FileResponseVO implements Serializable {
 	private static final long serialVersionUID = -3366198496316925959L;
 
 	private String id;
-	private String userId;
+	private Integer userId;
 	private String fileName;
 	private String status;
 	private Long processDuration;
@@ -22,11 +22,11 @@ public class FileResponseVO implements Serializable {
 		this.id = id;
 	}
 
-	public String getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
