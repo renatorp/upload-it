@@ -60,4 +60,15 @@ public class UserService implements IUserService {
 		
 		return opt.get();
 	}
+	
+	@Override
+	public User getUser(Integer userId) {
+		Optional<User> opt = dataStore.getUserById(userId);
+		
+		if (opt.isPresent()) {
+			return opt.get();
+		}
+		
+		return null;
+	}
 }

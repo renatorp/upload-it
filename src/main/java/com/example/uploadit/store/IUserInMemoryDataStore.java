@@ -14,4 +14,6 @@ public interface IUserInMemoryDataStore {
 	User createUser(User user);
 
 	Optional<User> findUserByNameAndPassword(User user);
+
+	Optional<User> getUserById(Integer userId);
 }

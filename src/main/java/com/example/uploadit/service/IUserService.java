@@ -14,4 +14,6 @@ public interface IUserService {
 
 	User validateUser(User user);
 
+	User getUser(Integer userId);
+
 }

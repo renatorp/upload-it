@@ -37,6 +37,13 @@ public class UserInMemoryDataStore implements IUserInMemoryDataStore {
 	}
 
 	@Override
+	public Optional<User> getUserById(Integer userId) {
+		return userStore.stream()
+				.filter(u -> u.getId().equals(userId))
+				.findFirst();
+	}
+	
+	@Override
 	public User createUser(User user) {
 		user.setId(generateId());
 		user.setName(user.getName().trim());
