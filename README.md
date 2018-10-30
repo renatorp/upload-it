@@ -9,7 +9,7 @@ Estas instruções servem de guia para executar uma cópia do projeto em sua má
 ### Pré-requisitos
 
 * Git
-* Java
+* JDK
 * Maven
 
 ### Instalação
